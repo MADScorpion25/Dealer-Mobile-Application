@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         SparseBooleanArray isCheckedPositions = listView.getCheckedItemPositions();
 
         String alert = IntStream.range(0, isCheckedPositions.size())
+                .filter(isCheckedPositions::valueAt)
                 .mapToObj((i) -> listData.get(isCheckedPositions.keyAt(i)))
                 .reduce((str1, str2) -> str1 + "\n" + str2).orElse("-");
 
