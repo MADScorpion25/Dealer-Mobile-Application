@@ -33,16 +33,16 @@
             android:text="@string/add_car_name_button" />
 
         <Button
-            android:id="@+id/clearSelectionButton"
+            android:id="@+id/removeCarButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/clear_selection_button" />
+            android:text="@string/remove_car_button" />
 
         <Button
-            android:id="@+id/selectAllButton"
+            android:id="@+id/editCarButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/select_all_button" />
+            android:text="@string/edit_car_button" />
 
         <Button
             android:id="@+id/outputSelectedButton"
@@ -50,7 +50,5 @@
             android:layout_height="wrap_content"
             android:text="@string/output_selected_button" />
     </LinearLayout>
-
-
 
 </LinearLayout>

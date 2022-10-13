@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Diler MobileApp</string>
     <string name="add_car_name_button">Add Car Name</string>
-    <string name="clear_selection_button">Clear Selection</string>
-    <string name="select_all_button">Select All</string>
+    <string name="edit_car_button">Edit Car</string>
+    <string name="remove_car_button">Remove Car</string>
     <string name="output_selected_button">Output Selected</string>
     <string name="car_name_edit_text">Car Name</string>
+    <string name="car_edit_confirm_button">Car Name</string>
 </resources>
