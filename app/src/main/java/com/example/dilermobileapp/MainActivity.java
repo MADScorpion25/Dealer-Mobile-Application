@@ -39,9 +39,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openReportsActivity(View view){
-        reportLogic.createCarConfigsReport();
-
-        reportLogic.createCarConfigsReport();
         reportLogic = new PdfReport(this);
         reportLogic.createCarConfigsReport();
 

@@ -38,37 +38,39 @@ public class PdfReport implements ReportLogicDeclaration {
 
     @Override
     public void createCarConfigsReport() {
+        Thread thread = new Thread(() -> {
+            try{
+                File filePath = new File(context.getFilesDir().getPath(), "car_configs_report_pdf.pdf");
+                PdfWriter writer = new PdfWriter(filePath);
+                PdfDocument pdfDoc = new PdfDocument(writer);
+                pdfDoc.addNewPage();
+                Document document = new Document(pdfDoc);
 
-        try{
-            File filePath = new File(context.getFilesDir().getPath(), "car_configs_report_pdf.pdf");
-            PdfWriter writer = new PdfWriter(filePath);
-            PdfDocument pdfDoc = new PdfDocument(writer);
-            pdfDoc.addNewPage();
-            Document document = new Document(pdfDoc);
+                for(Car car : getCarsList()){
+                    Paragraph paragraph = new Paragraph(car.getBrandName() + " " + car.getModelName() + " " + car.getProductionYear());
+                    paragraph.setFontSize(16);
+                    paragraph.setTextAlignment(TextAlignment.CENTER);
+                    document.add(paragraph);
 
-            for(Car car : getCarsList()){
-                Paragraph paragraph = new Paragraph(car.getBrandName() + " " + car.getModelName() + " " + car.getProductionYear());
-                paragraph.setFontSize(16);
-                paragraph.setTextAlignment(TextAlignment.CENTER);
-                document.add(paragraph);
-
-                float[] pointColumnWidths = {150F, 150F, 150F};
-                Table table = new Table(pointColumnWidths);
-                table.addCell(new Cell().add(new Paragraph("Config")));
-                table.addCell(new Cell().add(new Paragraph("Power")));
-                table.addCell(new Cell().add(new Paragraph("Price")));
-                for (Config config : getCarConfigs(car)) {
-                    table.addCell(new Cell().add(new Paragraph(config.getConfigurationName())));
-                    table.addCell(new Cell().add(new Paragraph(Short.toString(config.getPower()))));
-                    table.addCell(new Cell().add(new Paragraph(Integer.toString(config.getPrice()))));
+                    float[] pointColumnWidths = {150F, 150F, 150F};
+                    Table table = new Table(pointColumnWidths);
+                    table.addCell(new Cell().add(new Paragraph("Config")));
+                    table.addCell(new Cell().add(new Paragraph("Power")));
+                    table.addCell(new Cell().add(new Paragraph("Price")));
+                    for (Config config : getCarConfigs(car)) {
+                        table.addCell(new Cell().add(new Paragraph(config.getConfigurationName())));
+                        table.addCell(new Cell().add(new Paragraph(Short.toString(config.getPower()))));
+                        table.addCell(new Cell().add(new Paragraph(Integer.toString(config.getPrice()))));
+                    }
+                    document.add(table);
                 }
-                document.add(table);
-            }
 
-            document.close();
-        }catch(IOException ex){
-            ex.printStackTrace();
-        }
+                document.close();
+            }catch(IOException ex){
+                ex.printStackTrace();
+            }
+        });
+        thread.start();
     }
     private List<Car> getCarsList() {
         return carLogic.getCarsList();
