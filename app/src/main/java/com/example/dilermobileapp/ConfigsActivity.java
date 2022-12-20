@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,9 +15,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RemoteViews;
 
+import com.example.dilermobileapp.config.AlertCreating;
 import com.example.dilermobileapp.config.AppManager;
 import com.example.dilermobileapp.declarations.ConfigLogicDeclaration;
 import com.example.dilermobileapp.logic.ConfigServiceLogic;
+import com.example.dilermobileapp.models.Car;
 import com.example.dilermobileapp.models.Config;
 import com.example.dilermobileapp.storages.ConfigsStorage;
 
@@ -96,19 +99,33 @@ public class ConfigsActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     public void removeConfig(View view){
-        SparseBooleanArray isCheckedPositions = listView.getCheckedItemPositions();
-        ArrayList<Config> toRemove = new ArrayList<>();
-        for(int i : getCheckedItemsPositions()){
-            Config config = listData.get(isCheckedPositions.keyAt(i));
-            toRemove.add(config);
-        }
-        listData.removeAll(toRemove);
+        DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    SparseBooleanArray isCheckedPositions = listView.getCheckedItemPositions();
+                    ArrayList<Config> toRemove = new ArrayList<>();
 
-        toRemove.forEach(configLogic::deleteConfig);
+                    Arrays.stream(getCheckedItemsPositions()).sequential()
+                            .forEach((i) ->
+                                    toRemove.add(listData.get(isCheckedPositions.keyAt(i))));
+                    listData.removeAll(toRemove);
+                    toRemove.forEach(configLogic::deleteConfig);
+                    isCheckedPositions.clear();
+                    refreshList();
+                    break;
 
-        isCheckedPositions.clear();
+                case DialogInterface.BUTTON_NEGATIVE:
+                    dialog.cancel();
+                    break;
+            }
+        };
 
-        refreshList();
+        AlertCreating alert = new AlertCreating(this);
+        alert.onCreateDialog()
+                .setNegativeButton("No", dialogClickListener)
+                .setPositiveButton("Yes", dialogClickListener)
+                .create()
+                .show();
     }
 
     @Override

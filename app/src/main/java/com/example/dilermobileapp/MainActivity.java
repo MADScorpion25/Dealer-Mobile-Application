@@ -1,17 +1,13 @@
 package com.example.dilermobileapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.dilermobileapp.config.AppManager;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.dilermobileapp.declarations.ReportLogicDeclaration;
-import com.example.dilermobileapp.report.ExcelReport;
 import com.example.dilermobileapp.report.PdfReport;
-import com.example.dilermobileapp.report.WordReport;
-import com.example.dilermobileapp.storages.DealerCenterDBHelper;
 
 public class MainActivity extends AppCompatActivity {
     private ReportLogicDeclaration reportLogic;
@@ -21,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        reportLogic = new ExcelReport(this);
         findViewById(R.id.carsButton).setOnClickListener(this::openCarsActivity);
         findViewById(R.id.configsButton).setOnClickListener(this::openConfigsActivity);
         findViewById(R.id.specialsButton).setOnClickListener(this::openSpecialsActivity);
@@ -45,9 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void openReportsActivity(View view){
         reportLogic.createCarConfigsReport();
-        reportLogic = new WordReport(this);
+
         reportLogic.createCarConfigsReport();
         reportLogic = new PdfReport(this);
         reportLogic.createCarConfigsReport();
+
     }
 }

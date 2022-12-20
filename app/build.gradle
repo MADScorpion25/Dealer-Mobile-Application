@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.dilermobileapp"
@@ -39,10 +39,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.5.3'
     implementation 'androidx.navigation:navigation-ui:2.5.3'
     implementation 'org.springframework.security:spring-security-crypto:5.7.2'
-    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.0'
-    implementation group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '4.1.0'
-    implementation 'javax.xml.stream:stax-api:1.0'
-    implementation 'com.fasterxml:aalto-xml:1.2.2'
+    // https://mavenlibs.com/maven/dependency/com.itextpdf/html2pdf
+    implementation 'com.itextpdf:html2pdf:4.0.4'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'commons-logging:commons-logging:1.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'

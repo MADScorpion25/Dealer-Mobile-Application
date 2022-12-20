@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,9 +14,11 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.example.dilermobileapp.config.AlertCreating;
 import com.example.dilermobileapp.config.AppManager;
 import com.example.dilermobileapp.declarations.SpecialLogicDeclaration;
 import com.example.dilermobileapp.logic.SpecialServiceLogic;
+import com.example.dilermobileapp.models.Config;
 import com.example.dilermobileapp.models.Special;
 import com.example.dilermobileapp.storages.SpecialsStorage;
 
@@ -93,19 +96,34 @@ public class SpecialsActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     public void removeSpecial(View view){
-        SparseBooleanArray isCheckedPositions = listView.getCheckedItemPositions();
-        ArrayList<Special> toRemove = new ArrayList<>();
-        for(int i : getCheckedItemsPositions()){
-            Special special = listData.get(isCheckedPositions.keyAt(i));
-            toRemove.add(special);
-        }
-        listData.removeAll(toRemove);
+        DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    SparseBooleanArray isCheckedPositions = listView.getCheckedItemPositions();
+                    ArrayList<Special> toRemove = new ArrayList<>();
 
-        toRemove.forEach(specialLogic::deleteSpecial);
+                    Arrays.stream(getCheckedItemsPositions()).sequential()
+                            .forEach((i) ->
+                                    toRemove.add(listData.get(isCheckedPositions.keyAt(i))));
 
-        isCheckedPositions.clear();
+                    listData.removeAll(toRemove);
+                    toRemove.forEach(specialLogic::deleteSpecial);
+                    isCheckedPositions.clear();
+                    refreshList();
+                    break;
 
-        refreshList();
+                case DialogInterface.BUTTON_NEGATIVE:
+                    dialog.cancel();
+                    break;
+            }
+        };
+
+        AlertCreating alert = new AlertCreating(this);
+        alert.onCreateDialog()
+                .setNegativeButton("No", dialogClickListener)
+                .setPositiveButton("Yes", dialogClickListener)
+                .create()
+                .show();
     }
 
     @Override
