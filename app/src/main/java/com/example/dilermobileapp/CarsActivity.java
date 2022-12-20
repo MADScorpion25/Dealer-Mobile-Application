@@ -1,6 +1,5 @@
 package com.example.dilermobileapp;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -19,7 +18,7 @@ import com.example.dilermobileapp.config.AlertCreating;
 import com.example.dilermobileapp.declarations.CarLogicDeclaration;
 import com.example.dilermobileapp.logic.CarServiceLogic;
 import com.example.dilermobileapp.models.Car;
-import com.example.dilermobileapp.storages.CarsStorage;
+import com.example.dilermobileapp.storages.CarsCarStorage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +37,7 @@ public class CarsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cars);
-        carLogic = new CarServiceLogic(new CarsStorage());
+        carLogic = new CarServiceLogic(new CarsCarStorage());
 
         listData = carLogic.getCarsList();
         listView = findViewById(R.id.carsListView);
@@ -127,7 +126,7 @@ public class CarsActivity extends AppCompatActivity {
         };
 
         AlertCreating alert = new AlertCreating(this);
-        alert.onCreateDialog()
+        alert.getQuestionBuilder()
                 .setNegativeButton("No", dialogClickListener)
                 .setPositiveButton("Yes", dialogClickListener)
                 .create()

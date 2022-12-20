@@ -7,15 +7,15 @@ import androidx.annotation.RequiresApi;
 import com.example.dilermobileapp.declarations.CarLogicDeclaration;
 import com.example.dilermobileapp.models.Car;
 import com.example.dilermobileapp.models.Config;
-import com.example.dilermobileapp.storages.CarsStorage;
+import com.example.dilermobileapp.storages.CarsCarStorage;
 
 import java.util.List;
 
 public class CarServiceLogic implements CarLogicDeclaration {
 
-    private final CarsStorage carsStorage;
+    private final CarsCarStorage carsStorage;
 
-    public CarServiceLogic(CarsStorage carsStorage) {
+    public CarServiceLogic(CarsCarStorage carsStorage) {
         this.carsStorage = carsStorage;
     }
 
@@ -24,15 +24,26 @@ public class CarServiceLogic implements CarLogicDeclaration {
         return carsStorage.getList();
     }
 
+    @Override
+    public boolean existsByModelName(String model) {
+        return carsStorage.existsByModelName(model);
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public void createOrUpdateCar(Car car) {
+    public boolean createOrUpdateCar(Car car) {
+        if(existsByModelName(car.getModelName())) {
+            return false;
+        }
+
         if(car.getId() > 0) {
             carsStorage.update(car);
         }
         else {
             carsStorage.add(car);
         }
+        return true;
     }
 
     @Override

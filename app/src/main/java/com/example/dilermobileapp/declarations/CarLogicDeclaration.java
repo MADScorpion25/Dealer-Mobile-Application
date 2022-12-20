@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface CarLogicDeclaration {
     List<Car> getCarsList();
-    void createOrUpdateCar(Car car);
+    boolean existsByModelName(String model);
+    boolean createOrUpdateCar(Car car);
     void deleteCar(Car car);
     List<Config> getCarConfigs(Car car);
 }

@@ -3,11 +3,14 @@ package com.example.dilermobileapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.dilermobileapp.config.AlertCreating;
 import com.example.dilermobileapp.config.AppManager;
 import com.example.dilermobileapp.declarations.UserLogicDeclaration;
 import com.example.dilermobileapp.logic.UserServiceLogic;
@@ -53,7 +56,12 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else {
-            Toast.makeText(this, "Incorrect login or password, try again", Toast.LENGTH_LONG).show();
+            AlertCreating alert = new AlertCreating(this);
+            alert.getWarningBuilder("Incorrect login or password, try again")
+                    .setPositiveButton("Ok",
+                            (dialog, which) -> dialog.cancel())
+                    .create()
+                    .show();
         }
     }
 

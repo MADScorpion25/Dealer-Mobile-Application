@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface ConfigLogicDeclaration {
     List<Config> getConfigsList();
+    boolean existsByConfigName(String name);
     Config getConfigById(int id);
-    void createOrUpdateConfig(Config config);
+    boolean createOrUpdateConfig(Config config);
     void deleteConfig(Config config);
 }

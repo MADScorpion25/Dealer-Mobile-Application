@@ -119,7 +119,7 @@ public class SpecialsActivity extends AppCompatActivity {
         };
 
         AlertCreating alert = new AlertCreating(this);
-        alert.onCreateDialog()
+        alert.getQuestionBuilder()
                 .setNegativeButton("No", dialogClickListener)
                 .setPositiveButton("Yes", dialogClickListener)
                 .create()

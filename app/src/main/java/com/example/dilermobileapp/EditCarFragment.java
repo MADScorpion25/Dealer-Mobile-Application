@@ -9,19 +9,20 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.dilermobileapp.config.AlertCreating;
 import com.example.dilermobileapp.config.AppManager;
 import com.example.dilermobileapp.declarations.CarLogicDeclaration;
 import com.example.dilermobileapp.logic.CarServiceLogic;
 import com.example.dilermobileapp.models.Car;
 import com.example.dilermobileapp.models.Config;
-import com.example.dilermobileapp.storages.CarsStorage;
+import com.example.dilermobileapp.storages.CarsCarStorage;
 
 import java.util.List;
 import java.util.Set;
@@ -54,7 +55,7 @@ public class EditCarFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        carLogic = new CarServiceLogic(new CarsStorage());
+        carLogic = new CarServiceLogic(new CarsCarStorage());
         Button btnCreate = (Button) view.findViewById(R.id.createCarButton);
         btnCreate.setOnClickListener(this::createCar);
         btnCreate.setText("Create");
@@ -100,6 +101,7 @@ public class EditCarFragment extends Fragment {
         if(id > 0) {
             car.setId(id);
         }
+
         List<Integer> configsId = AppManager.getInfo();
         configs = configsId.stream()
                 .map(id -> {
@@ -109,7 +111,17 @@ public class EditCarFragment extends Fragment {
                 })
                 .collect(Collectors.toSet());
         car.setConfigs(configs);
-        carLogic.createOrUpdateCar(car);
-        getActivity().onBackPressed();
+
+        if(carLogic.createOrUpdateCar(car)) {
+            getActivity().onBackPressed();
+        }
+        else {
+            AlertCreating alert = new AlertCreating(getActivity());
+            alert.getWarningBuilder("Car with model " + model + " already exists")
+                    .setPositiveButton("Ok",
+                            (dialog, which) -> dialog.cancel())
+                    .create()
+                    .show();
+        }
     }
 }

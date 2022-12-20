@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -18,12 +17,11 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.dilermobileapp.config.AppManager;
-import com.example.dilermobileapp.declarations.CarLogicDeclaration;
 import com.example.dilermobileapp.declarations.ConfigLogicDeclaration;
 import com.example.dilermobileapp.logic.ConfigServiceLogic;
 import com.example.dilermobileapp.models.Car;
 import com.example.dilermobileapp.models.Config;
-import com.example.dilermobileapp.storages.CarsStorage;
+import com.example.dilermobileapp.storages.CarsCarStorage;
 import com.example.dilermobileapp.storages.ConfigsStorage;
 
 import java.util.ArrayList;
@@ -35,7 +33,7 @@ public class SetConfigsFragment extends DialogFragment {
 
     public List<Integer> selectedIds;
 
-    private CarsStorage carsStorage;
+    private CarsCarStorage carsStorage;
     private ConfigLogicDeclaration configLogicDeclaration;
 
     private ListView listView;
@@ -52,7 +50,7 @@ public class SetConfigsFragment extends DialogFragment {
         View v = inflater.inflate(R.layout.fragment_set_configs, null);
         Button button = v.findViewById(R.id.addConfigButton);
 
-        carsStorage = new CarsStorage();
+        carsStorage = new CarsCarStorage();
         configLogicDeclaration = new ConfigServiceLogic(new ConfigsStorage());
 
         Car car = new Car();

@@ -18,17 +18,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 
-import com.example.dilermobileapp.config.AppManager;
 import com.example.dilermobileapp.declarations.SpecialLogicDeclaration;
-import com.example.dilermobileapp.logic.CarServiceLogic;
 import com.example.dilermobileapp.logic.SpecialServiceLogic;
 import com.example.dilermobileapp.models.Special;
 import com.example.dilermobileapp.models.enums.CarClass;
 import com.example.dilermobileapp.models.enums.DriveType;
-import com.example.dilermobileapp.storages.CarsStorage;
 import com.example.dilermobileapp.storages.SpecialsStorage;
 
 import java.util.List;

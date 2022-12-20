@@ -11,6 +11,7 @@ public interface ConfigStorageDeclaration {
     void add(Config config);
     void update(Config config);
     void delete(Config config);
+    boolean existsByConfigName(String name);
     void deleteAll(List<Config> configs);
     List<Config> getConfigsByCar(Car car);
 }

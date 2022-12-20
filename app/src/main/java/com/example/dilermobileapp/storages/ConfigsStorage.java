@@ -114,6 +114,20 @@ public class ConfigsStorage implements ConfigStorageDeclaration {
         db.close();
     }
 
+    @Override
+    public boolean existsByConfigName(String name) {
+        SQLiteDatabase db = AppManager.getDealerCenterDBHelper().getWritableDatabase();
+
+        Cursor cursor = db.query(DealerCenterDBHelper.CONFIG_TABLE,null,
+                DealerCenterDBHelper.CONFIG_NAME + " = ?",
+                new String[] {name}, null, null, null);
+
+        int count = cursor.getCount();
+        cursor.close();
+        db.close();
+        return count > 0;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void deleteAll(List<Config> configs) {

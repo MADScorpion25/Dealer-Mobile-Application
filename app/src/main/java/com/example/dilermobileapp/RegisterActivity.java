@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.dilermobileapp.config.AlertCreating;
 import com.example.dilermobileapp.declarations.UserLogicDeclaration;
 import com.example.dilermobileapp.logic.UserServiceLogic;
 import com.example.dilermobileapp.models.User;
@@ -49,6 +50,14 @@ public class RegisterActivity extends AppCompatActivity {
 
         if(userLogic.registerUser(user)) {
             finish();
+        }
+        else{
+            AlertCreating alert = new AlertCreating(this);
+            alert.getWarningBuilder("User with login " + log + " already exists")
+                    .setPositiveButton("Ok",
+                            (dialog, which) -> dialog.cancel())
+                    .create()
+                    .show();
         }
     }
 }

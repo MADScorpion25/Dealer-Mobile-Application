@@ -9,11 +9,8 @@ import com.example.dilermobileapp.logic.CarServiceLogic;
 import com.example.dilermobileapp.logic.ConfigServiceLogic;
 import com.example.dilermobileapp.models.Car;
 import com.example.dilermobileapp.models.Config;
-import com.example.dilermobileapp.storages.CarsStorage;
+import com.example.dilermobileapp.storages.CarsCarStorage;
 import com.example.dilermobileapp.storages.ConfigsStorage;
-import com.itextpdf.io.font.PdfEncodings;
-import com.itextpdf.kernel.font.PdfFont;
-import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
@@ -23,8 +20,6 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.TextAlignment;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -36,7 +31,7 @@ public class PdfReport implements ReportLogicDeclaration {
     private Context context;
 
     public PdfReport(Context context) {
-        carLogic = new CarServiceLogic(new CarsStorage());
+        carLogic = new CarServiceLogic(new CarsCarStorage());
         this.context = context;
         configLogic = new ConfigServiceLogic(new ConfigsStorage());
     }

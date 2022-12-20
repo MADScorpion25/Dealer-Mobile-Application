@@ -28,8 +28,17 @@ public class UserServiceLogic implements UserLogicDeclaration {
 
     @Override
     public boolean registerUser(User user) {
+        if(existsByLogin(user.getLogin())) {
+            return false;
+        }
+
         userStorage.add(user);
         return true;
+    }
+
+    @Override
+    public boolean existsByLogin(String login) {
+        return userStorage.existsByLogin(login);
     }
 
     @Override

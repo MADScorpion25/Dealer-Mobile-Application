@@ -19,18 +19,29 @@ public class ConfigServiceLogic implements ConfigLogicDeclaration {
     }
 
     @Override
+    public boolean existsByConfigName(String name) {
+        return configsStorage.existsByConfigName(name);
+    }
+
+    @Override
     public Config getConfigById(int id) {
         return configsStorage.getConfigById(id);
     }
 
     @Override
-    public void createOrUpdateConfig(Config config) {
+    public boolean createOrUpdateConfig(Config config) {
+        if(existsByConfigName(config.getConfigurationName())) {
+            return false;
+        }
+
         if(config.getId() > 0) {
             configsStorage.update(config);
         }
         else {
             configsStorage.add(config);
         }
+
+        return true;
     }
 
     @Override

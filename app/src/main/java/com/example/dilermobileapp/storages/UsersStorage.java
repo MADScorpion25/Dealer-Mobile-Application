@@ -120,6 +120,20 @@ public class UsersStorage implements UsersStorageDeclaration {
         db.close();
     }
 
+    @Override
+    public boolean existsByLogin(String login) {
+        SQLiteDatabase db = AppManager.getDealerCenterDBHelper().getWritableDatabase();
+
+        Cursor cursor = db.query(DealerCenterDBHelper.USER_TABLE,null,
+                DealerCenterDBHelper.LOGIN + " = ?",
+                new String[] {login}, null, null, null);
+
+        int count = cursor.getCount();
+        cursor.close();
+        db.close();
+        return count > 0;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void deleteAll(List<User> users) {

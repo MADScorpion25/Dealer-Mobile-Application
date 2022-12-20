@@ -10,5 +10,6 @@ public interface UsersStorageDeclaration {
     void add(User user);
     void update(User user);
     void delete(User user);
+    boolean existsByLogin(String login);
     void deleteAll(List<User> users);
 }

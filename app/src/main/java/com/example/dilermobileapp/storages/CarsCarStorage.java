@@ -1,7 +1,6 @@
 package com.example.dilermobileapp.storages;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -12,19 +11,19 @@ import com.example.dilermobileapp.config.AppManager;
 import com.example.dilermobileapp.declarations.ConfigLogicDeclaration;
 import com.example.dilermobileapp.logic.ConfigServiceLogic;
 import com.example.dilermobileapp.models.Car;
-import com.example.dilermobileapp.declarations.StorageDeclaration;
+import com.example.dilermobileapp.declarations.CarStorageDeclaration;
 import com.example.dilermobileapp.models.Config;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CarsStorage implements StorageDeclaration {
+public class CarsCarStorage implements CarStorageDeclaration {
 
     private static ArrayList<Car> cars;
 
     private ConfigLogicDeclaration configLogic;
 
-    public CarsStorage(){
+    public CarsCarStorage(){
         cars = new ArrayList<>();
         configLogic = new ConfigServiceLogic(new ConfigsStorage());
     }
@@ -168,7 +167,16 @@ public class CarsStorage implements StorageDeclaration {
     }
 
     @Override
-    public List<Car> findSimilar(Car Car) {
-        return null;
+    public boolean existsByModelName(String model) {
+        SQLiteDatabase db = AppManager.getDealerCenterDBHelper().getWritableDatabase();
+
+        Cursor cursor = db.query(DealerCenterDBHelper.CAR_TABLE,null,
+                DealerCenterDBHelper.MODEL_NAME + " = ?",
+                new String[] {model}, null, null, null);
+
+        int count = cursor.getCount();
+        cursor.close();
+        db.close();
+        return count > 0;
     }
 }

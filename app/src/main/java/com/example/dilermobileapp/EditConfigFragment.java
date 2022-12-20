@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.dilermobileapp.config.AlertCreating;
 import com.example.dilermobileapp.config.AppManager;
 import com.example.dilermobileapp.declarations.ConfigLogicDeclaration;
 import com.example.dilermobileapp.declarations.SpecialLogicDeclaration;
@@ -137,7 +138,16 @@ public class EditConfigFragment extends Fragment {
             config.setSpecial(selSpec);
         }
 
-        configLogic.createOrUpdateConfig(config);
-        getActivity().onBackPressed();
+        if(configLogic.createOrUpdateConfig(config)) {
+            getActivity().onBackPressed();
+        }
+        else {
+            AlertCreating alert = new AlertCreating(getActivity());
+            alert.getWarningBuilder("Config with name " + name + " already exists")
+                    .setPositiveButton("Ok",
+                            (dialog, which) -> dialog.cancel())
+                    .create()
+                    .show();
+        }
     }
 }
