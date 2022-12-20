@@ -3,22 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#000000">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:background="#121212"
+    <ListView
+        android:id="@+id/specialsListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:choiceMode="multipleChoice"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/logo" />
+        tools:layout_editor_absoluteX="0dp" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -31,31 +27,24 @@
         tools:ignore="MissingConstraints">
 
         <Button
-            android:id="@+id/carsButton"
+            android:id="@+id/addSpecialNameButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cars"
-            android:textColor="@color/white" />
+            android:text="@string/add_special_name_button"
+            android:textColor="@color/white"/>
 
         <Button
-            android:id="@+id/configsButton"
+            android:id="@+id/editSpecialButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Configurations" />
+            android:text="@string/edit_special_button" />
 
         <Button
-            android:id="@+id/specialsButton"
+            android:id="@+id/removeSpecialButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Specials" />
-
-        <Button
-            android:id="@+id/reportsButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Reports" />
+            android:text="@string/remove_special_button" />
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,21 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="10dp">
 
     <ListView
         android:choiceMode="multipleChoice"
-        android:id="@+id/carListView"
+        android:id="@+id/carsListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"/>
 
     <LinearLayout
+        android:choiceMode="multipleChoice"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <EditText
             android:id="@+id/carNameEditText"
@@ -24,7 +27,9 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@string/car_name_edit_text" />
+            android:background="@color/back"
+            android:padding="10dp"
+            android:hint="@string/car_name_edit_text" />
 
         <Button
             android:id="@+id/addCarNameButton"

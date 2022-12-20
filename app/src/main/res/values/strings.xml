@@ -1,9 +1,44 @@
 <resources>
-    <string name="app_name">Diler MobileApp</string>
-    <string name="add_car_name_button">Add Car Name</string>
+    <string name="app_name">Dealer Mobile App</string>
+    <string name="add_car_name_button">Add Car</string>
     <string name="edit_car_button">Edit Car</string>
     <string name="remove_car_button">Remove Car</string>
-    <string name="output_selected_button">Output Selected</string>
+    <string name="add_config_name_button">Add Config</string>
+    <string name="edit_config_button">Edit Config</string>
+    <string name="remove_config_button">Remove Config</string>
+    <string name="add_special_name_button">Add Special</string>
+    <string name="edit_special_button">Edit Special</string>
+    <string name="remove_special_button">Remove Special</string>
+    <string name="special_car_class_spinner">Car Class</string>
+    <string name="special_drive_type">Drive Type</string>
+    <string name="specials_spinner">Special</string>
+    <string name="special_description_multipart">Description</string>
+    <string name="output_selected_button">Output Filtered</string>
     <string name="car_name_edit_text">Car Name</string>
-    <string name="car_edit_confirm_button">Car Name</string>
+    <string name="car_edit_confirm_button">Edit</string>
+    <string name="file_storage_btn">File Storage</string>
+    <string name="database_storage_btn">Database Storage</string>
+    <string name="set_config_btn">Set Configuration</string>
+    <string name="brand_name_text_view">Brand Name</string>
+    <string name="model_name_text_view">Model Name</string>
+    <string name="config_name_text_view">Configuration Name</string>
+    <string name="price_num_view">Price</string>
+    <string name="power_num_view">Power</string>
+    <string name="description_text_view">Description</string>
+    <string name="car_class_spinner">Car Class</string>
+    <string name="production_year_text_view">Production Year</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
+    <string name="title_activity_starter">StarterActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
