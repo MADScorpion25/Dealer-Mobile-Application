@@ -33,12 +33,11 @@ public class CarServiceLogic implements CarLogicDeclaration {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public boolean createOrUpdateCar(Car car) {
-        if(existsByModelName(car.getModelName())) {
-            return false;
-        }
-
         if(car.getId() > 0) {
             carsStorage.update(car);
+        }
+        else if(existsByModelName(car.getModelName()) ) {
+            return false;
         }
         else {
             carsStorage.add(car);

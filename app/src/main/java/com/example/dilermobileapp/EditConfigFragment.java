@@ -16,24 +16,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.dilermobileapp.config.AlertCreating;
-import com.example.dilermobileapp.config.AppManager;
 import com.example.dilermobileapp.declarations.ConfigLogicDeclaration;
 import com.example.dilermobileapp.declarations.SpecialLogicDeclaration;
 import com.example.dilermobileapp.logic.ConfigServiceLogic;
 import com.example.dilermobileapp.logic.SpecialServiceLogic;
-import com.example.dilermobileapp.models.Car;
+import com.example.dilermobileapp.validation.ValidationLogicService;
 import com.example.dilermobileapp.models.Config;
 import com.example.dilermobileapp.models.Special;
-import com.example.dilermobileapp.models.enums.CarClass;
 import com.example.dilermobileapp.storages.ConfigsStorage;
 import com.example.dilermobileapp.storages.SpecialsStorage;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 public class EditConfigFragment extends Fragment {
 
@@ -67,7 +65,9 @@ public class EditConfigFragment extends Fragment {
 
         configLogic = new ConfigServiceLogic(new ConfigsStorage());
         specialLogic = new SpecialServiceLogic(new SpecialsStorage());
-        view.findViewById(R.id.createCarButton).setOnClickListener(this::createCar);
+        Button btnCreate = (Button) view.findViewById(R.id.createCarButton);
+        btnCreate.setOnClickListener(this::createCar);
+        btnCreate.setText("Create");
         configName = view.findViewById(R.id.editTextConfigName);
         power = view.findViewById(R.id.editTextNumberDecimalPower);
         price = view.findViewById(R.id.editTextNumberDecimalPrice);
@@ -87,6 +87,7 @@ public class EditConfigFragment extends Fragment {
             power.setText(Short.toString(intent.getShortExtra("power", (short)0)));
             price.setText(Integer.toString(intent.getIntExtra("price", 0)));
             int specId = intent.getIntExtra("specialId", 0);
+            btnCreate.setText("Edit");
             if(specId > 0) {
                 List<Special> collect = specials.stream()
                         .filter(spec -> spec.getId() == specId)
@@ -119,13 +120,11 @@ public class EditConfigFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = 33)
     public void createCar(View view){
         String name = configName.getText().toString();
         short pow = Short.parseShort(power.getText().toString());
         int prs = Integer.parseInt(price.getText().toString());
-        if(name.equals("") || pow == 0 || prs == 0) {
-            return;
-        }
 
         Config config = new Config();
         config.setConfigurationName(name);
@@ -138,16 +137,26 @@ public class EditConfigFragment extends Fragment {
             config.setSpecial(selSpec);
         }
 
-        if(configLogic.createOrUpdateConfig(config)) {
-            getActivity().onBackPressed();
-        }
-        else {
+        ValidationLogicService.validateConfig(config).ifPresentOrElse((message) -> {
             AlertCreating alert = new AlertCreating(getActivity());
-            alert.getWarningBuilder("Config with name " + name + " already exists")
+            alert.getWarningBuilder(message)
                     .setPositiveButton("Ok",
                             (dialog, which) -> dialog.cancel())
                     .create()
                     .show();
-        }
+        }, () -> {
+            if(configLogic.createOrUpdateConfig(config)) {
+                getActivity().onBackPressed();
+            }
+            else {
+                AlertCreating alert = new AlertCreating(getActivity());
+                alert.getWarningBuilder("Config with name " + name + " already exists")
+                        .setPositiveButton("Ok",
+                                (dialog, which) -> dialog.cancel())
+                        .create()
+                        .show();
+            }
+        });
+
     }
 }

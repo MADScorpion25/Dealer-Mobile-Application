@@ -30,12 +30,11 @@ public class ConfigServiceLogic implements ConfigLogicDeclaration {
 
     @Override
     public boolean createOrUpdateConfig(Config config) {
-        if(existsByConfigName(config.getConfigurationName())) {
-            return false;
-        }
-
         if(config.getId() > 0) {
             configsStorage.update(config);
+        }
+        else if(existsByConfigName(config.getConfigurationName())) {
+            return false;
         }
         else {
             configsStorage.add(config);

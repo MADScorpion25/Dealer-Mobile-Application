@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.dilermobileapp.config.AlertCreating;
 import com.example.dilermobileapp.declarations.ReportLogicDeclaration;
 import com.example.dilermobileapp.report.PdfReport;
 
@@ -41,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
     private void openReportsActivity(View view){
         reportLogic = new PdfReport(this);
         reportLogic.createCarConfigsReport();
-
+        AlertCreating alert = new AlertCreating(this);
+        alert.getInfoBuilder("Report created")
+                .setPositiveButton("Ok",
+                        (dialog, which) -> dialog.cancel())
+                .create()
+                .show();
     }
 }

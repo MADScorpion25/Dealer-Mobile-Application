@@ -20,8 +20,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.dilermobileapp.config.AlertCreating;
 import com.example.dilermobileapp.declarations.SpecialLogicDeclaration;
 import com.example.dilermobileapp.logic.SpecialServiceLogic;
+import com.example.dilermobileapp.validation.ValidationLogicService;
 import com.example.dilermobileapp.models.Special;
 import com.example.dilermobileapp.models.enums.CarClass;
 import com.example.dilermobileapp.models.enums.DriveType;
@@ -137,10 +139,9 @@ public class SpecialEditFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = 33)
     public void createSpecial(View view){
         String desc = description.getText().toString();
-
-        if(desc.equals("") || carCls == null || drive == null) return;
 
         Special special = new Special();
         special.setDescription(desc);
@@ -149,7 +150,17 @@ public class SpecialEditFragment extends Fragment {
         if(id > 0) {
             special.setId(id);
         }
-        specialLogic.createOrUpdateSpecial(special);
-        getActivity().onBackPressed();
+
+        ValidationLogicService.validateSpecial(special).ifPresentOrElse((message) -> {
+            AlertCreating alert = new AlertCreating(getActivity());
+            alert.getWarningBuilder(message)
+                    .setPositiveButton("Ok",
+                            (dialog, which) -> dialog.cancel())
+                    .create()
+                    .show();
+        }, () -> {
+            specialLogic.createOrUpdateSpecial(special);
+            getActivity().onBackPressed();
+        });
     }
 }

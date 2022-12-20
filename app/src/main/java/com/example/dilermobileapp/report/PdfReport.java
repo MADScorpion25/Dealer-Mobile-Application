@@ -2,6 +2,7 @@ package com.example.dilermobileapp.report;
 
 import android.content.Context;
 
+import com.example.dilermobileapp.config.AlertCreating;
 import com.example.dilermobileapp.declarations.CarLogicDeclaration;
 import com.example.dilermobileapp.declarations.ConfigLogicDeclaration;
 import com.example.dilermobileapp.declarations.ReportLogicDeclaration;
@@ -71,6 +72,11 @@ public class PdfReport implements ReportLogicDeclaration {
             }
         });
         thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+
+        }
     }
     private List<Car> getCarsList() {
         return carLogic.getCarsList();

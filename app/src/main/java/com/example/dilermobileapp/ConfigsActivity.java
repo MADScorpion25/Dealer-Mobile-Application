@@ -91,7 +91,9 @@ public class ConfigsActivity extends AppCompatActivity {
             intent.putExtra("configurationName", config.getConfigurationName());
             intent.putExtra("price", config.getPrice());
             intent.putExtra("power", (short)config.getPower());
-            intent.putExtra("specialId", config.getSpecial().getId());
+            if(config.getSpecial() != null) {
+                intent.putExtra("specialId", config.getSpecial().getId());
+            }
             startActivity(intent);
         }
         refreshList();

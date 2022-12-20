@@ -16,6 +16,7 @@ public class AlertCreating {
     private final String QUESTION_TITLE = "Question";
     private final String QUESTION_CONTENT = "Do you want to delete entity?";
     private final String ALERT_TITLE = "Warning";
+    private final String INFO_TITLE = "Notification";
 
     @NonNull
     public AlertDialog.Builder onCreateDialog(String title, String message, int drawable) {
@@ -35,5 +36,9 @@ public class AlertCreating {
 
     public AlertDialog.Builder getWarningBuilder(String message){
         return onCreateDialog(ALERT_TITLE, message, R.drawable.warning);
+    }
+
+    public AlertDialog.Builder getInfoBuilder(String message){
+        return onCreateDialog(INFO_TITLE, message, R.drawable.check);
     }
 }

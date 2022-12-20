@@ -1,5 +1,6 @@
 package com.example.dilermobileapp;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import com.example.dilermobileapp.config.AlertCreating;
 import com.example.dilermobileapp.declarations.UserLogicDeclaration;
 import com.example.dilermobileapp.logic.UserServiceLogic;
+import com.example.dilermobileapp.validation.ValidationLogicService;
 import com.example.dilermobileapp.models.User;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -21,6 +23,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private UserLogicDeclaration userLogic;
 
+    @RequiresApi(api = 33)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
         findViewById(R.id.registerButton).setOnClickListener(this::registerUser);
     }
 
+    @RequiresApi(api = 33)
     private void registerUser(View view) {
         String log = login.getText().toString();
         String pass = password.getText().toString();
@@ -48,16 +52,25 @@ public class RegisterActivity extends AppCompatActivity {
         user.setPassword(pass);
         user.setEmail(mail);
 
-        if(userLogic.registerUser(user)) {
-            finish();
-        }
-        else{
+        ValidationLogicService.validateUser(user).ifPresentOrElse((message) -> {
             AlertCreating alert = new AlertCreating(this);
-            alert.getWarningBuilder("User with login " + log + " already exists")
+            alert.getWarningBuilder(message)
                     .setPositiveButton("Ok",
                             (dialog, which) -> dialog.cancel())
                     .create()
                     .show();
-        }
+        }, () -> {
+            if(userLogic.registerUser(user)) {
+                finish();
+            }
+            else{
+                AlertCreating alert = new AlertCreating(this);
+                alert.getWarningBuilder("User with login " + log + " already exists")
+                        .setPositiveButton("Ok",
+                                (dialog, which) -> dialog.cancel())
+                        .create()
+                        .show();
+            }
+        });
     }
 }

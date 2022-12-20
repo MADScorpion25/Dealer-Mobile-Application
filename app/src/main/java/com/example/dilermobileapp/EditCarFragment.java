@@ -14,12 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.dilermobileapp.config.AlertCreating;
 import com.example.dilermobileapp.config.AppManager;
 import com.example.dilermobileapp.declarations.CarLogicDeclaration;
 import com.example.dilermobileapp.logic.CarServiceLogic;
+import com.example.dilermobileapp.validation.ValidationLogicService;
 import com.example.dilermobileapp.models.Car;
 import com.example.dilermobileapp.models.Config;
 import com.example.dilermobileapp.storages.CarsCarStorage;
@@ -90,12 +90,14 @@ public class EditCarFragment extends Fragment {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = 33)
     public void createCar(View view){
         String brand = brandName.getText().toString();
         String model = modelName.getText().toString();
-        short prodYear = Short.parseShort(productionYear.getText().toString());
-        if(brand.equals("") || model.equals("")) return;
+        short prodYear = -1;
+        try{
+            prodYear = Short.parseShort(productionYear.getText().toString());
+        } catch(NumberFormatException ignored) {}
 
         Car car = new Car(brand, model, prodYear);
         if(id > 0) {
@@ -112,16 +114,26 @@ public class EditCarFragment extends Fragment {
                 .collect(Collectors.toSet());
         car.setConfigs(configs);
 
-        if(carLogic.createOrUpdateCar(car)) {
-            getActivity().onBackPressed();
-        }
-        else {
+        ValidationLogicService.validateCar(car).ifPresentOrElse((message) -> {
             AlertCreating alert = new AlertCreating(getActivity());
-            alert.getWarningBuilder("Car with model " + model + " already exists")
+            alert.getWarningBuilder(message)
                     .setPositiveButton("Ok",
                             (dialog, which) -> dialog.cancel())
                     .create()
                     .show();
-        }
+        }, () -> {
+            if(carLogic.createOrUpdateCar(car)) {
+                getActivity().onBackPressed();
+            }
+            else {
+                AlertCreating alert = new AlertCreating(getActivity());
+                alert.getWarningBuilder("Car with model " + model + " already exists")
+                        .setPositiveButton("Ok",
+                                (dialog, which) -> dialog.cancel())
+                        .create()
+                        .show();
+            }
+        });
     }
+
 }
